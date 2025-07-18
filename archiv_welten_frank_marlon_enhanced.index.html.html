@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArchivWeltenBibliothek × Frank & Marlon Schwung - Wissen & Musik</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary-red: #8B0000;
+            --secondary-red: #A52A2A;
+            --accent-red: #DC143C;
+            --dark-red: #5C0000;
+            --light-red: #CD5C5C;
+            --text-light: #F5F5DC;
+            --text-dark: #2C0000;
+            --background-dark: #1A0000;
+            --background-light: #2C1010;
+        }
+
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent-red) var(--dark-red);
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-red);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-red);
+            border-radius: 3px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--background-dark) 0%, var(--dark-red) 50%, var(--background-light) 100%);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .glass-effect {
+            background: rgba(139, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(220, 20, 60, 0.2);
+        }
+
+        .gradient-text {
+            background: linear-gradient(45deg, var(--accent-red), var(--light-red));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .corporate-header {
+            background: linear-gradient(90deg, var(--primary-red) 0%, var(--secondary-red) 100%);
+            box-shadow: 0 4px 20px rgba(139, 0, 0, 0.5);
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, var(--dark-red) 0%, var(--primary-red) 50%, var(--secondary-red) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.05"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.05"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            animation: grain 20s linear infinite;
+        }
+
+        @keyframes grain {
+            0%, 100% { transform: translate(0, 0); }
+            10% { transform: translate(-5%, -10%); }
+            20% { transform: translate(-15%, 5%); }
+            30% { transform: translate(7%, -25%); }
+            40% { transform: translate(-5%, 25%); }
+            50% { transform: translate(-15%, 10%); }
+            60% { transform: translate(15%, 0%); }
+            70% { transform: translate(0%, 15%); }
+            80% { transform: translate(3%, 35%); }
+            90% { transform: translate(-10%, 10%); }
+        }
+
+        .archive-badge {
+            background: linear-gradient(45deg, var(--accent-red), var(--secondary-red));
+            border-radius: 50px;
+            padding: 8px 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(220, 20, 60, 0.3);
+        }
+
+        .feature-card {
+            background: rgba(139, 0, 0, 0.15);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(220, 20, 60, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            height: 100%;
+            break-inside: avoid;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(220, 20, 60, 0.4);
+            border-color: var(--accent-red);
+        }
+
+        .detailed-card {
+            background: rgba(139, 0, 0, 0.2);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(220, 20, 60, 0.4);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin: 2rem 0;
+            break-inside: avoid;
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, var(--accent-red), var(--secondary-red));
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(220, 20, 60, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(220, 20, 60, 0.5);
+            color: white;
+        }
+
+        .stats-card {
+            background: rgba(44, 16, 16, 0.8);
+            border: 1px solid var(--accent-red);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            break-inside: avoid;
+        }
+
+        .stats-card:hover {
+            background: rgba(220, 20, 60, 0.1);
+            transform: scale(1.05);
+        }
+
+        .video-container {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-red), transparent);
+            margin: 3rem 0;
+        }
+
+        .platform-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .platform-icon:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 20px rgba(220, 20, 60, 0.4);
+        }
+
+        .youtube-icon { background: #FF0000; }
+        .spotify-icon { background: #1DB954; }
+        .instagram-icon { background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D); }
+        .telegram-icon { background: #0088CC; }
+        .ticket-icon { background: var(--accent-red); }
+
+        .navigation-menu {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(139, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(220, 20, 60, 0.3);
+        }
+
+        .nav-link {
+            color: var(--text-light);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            background: rgba(220, 20, 60, 0.2);
+            color: var(--accent-red);
+        }
+
+        .knowledge-category {
+            background: rgba(139, 0, 0, 0.1);
+            border-left: 4px solid var(--accent-red);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            break-inside: avoid;
+        }
+
+        .footer-section {
+            background: linear-gradient(135deg, var(--dark-red) 0%, var(--background-dark) 100%);
+            border-top: 1px solid var(--accent-red);
+        }
+
+        .conspiracy-detail {
+            background: rgba(44, 16, 16, 0.6);
+            border: 1px solid rgba(220, 20, 60, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            break-inside: avoid;
+        }
+
+        .evidence-list {
+            background: rgba(92, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .truth-level {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .truth-high { background: var(--accent-red); color: white; }
+        .truth-medium { background: #FFA500; color: white; }
+        .truth-low { background: #808080; color: white; }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 2rem 1rem;
+            }
+            
+            .feature-card {
+                padding: 1.5rem;
+            }
+            
+            .stats-card {
+                padding: 1rem;
+            }
+        }
+
+         {
+            body {
+                background: white;
+                color: black;
+            }
+            
+            .glass-effect, .feature-card, .detailed-card, .stats-card, .conspiracy-detail {
+                background: rgba(0, 0, 0, 0.05);
+                border: 1px solid rgba(0, 0, 0, 0.2);
+            }
+            
+            .gradient-text {
+                color: #8B0000;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navigation-menu">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-8">
+                    <div class="text-xl font-bold gradient-text">ArchivWeltenBibliothek × Frank & Marlon Schwung</div>
+                </div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="#music" class="nav-link">Musik</a>
+                    <a href="#library" class="nav-link">Bibliothek</a>
+                    <a href="#concerts" class="nav-link">Konzerte</a>
+                    <a href="#knowledge" class="nav-link">Wissen</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section py-20 relative">
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="text-center mb-12">
+                <div class="archive-badge inline-block mb-6">
+                    <i class="fas fa-book-open mr-2"></i>
+                    Verborgenes Wissen
+                </div>
+                <h1 class="text-5xl md:text-7xl font-bold mb-6" style="font-family: 'Playfair Display', serif;">
+                    SEELENFÄNGER
+                    <span class="block text-3xl md:text-4xl mt-2 gradient-text">Wissen × Musik × Wahrheit</span>
+                </h1>
+                <p class="text-xl md:text-2xl mb-8 max-w-4xl mx-auto opacity-90">
+                    Die ultimative Sammlung des verborgenen Wissens vereint mit der kraftvollen Musik von Frank & Marlon Schwung
+                </p>
+                <div class="flex flex-col md:flex-row gap-4 justify-center">
+                    <a href="#music" class="cta-button">
+                        <i class="fas fa-music"></i>
+                        Musik Entdecken
+                    </a>
+                    <a href="#library" class="cta-button">
+                        <i class="fas fa-book"></i>
+                        Wissen Erkunden
+                    </a>
+                    <a href="#concerts" class="cta-button">
+                        <i class="fas fa-ticket-alt"></i>
+                        Tickets Kaufen
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Music Section -->
+    <section class="py-16 bg-gradient-to-b from-transparent to-black/20" id="music">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">DIESE WELT GEHÖRT EUCH NICHT</h2>
+                <p class="text-xl opacity-80">Ein Aufschrei gegen den Krieg, für den Frieden und für alle Kinder dieser Welt</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="video-container">
+                    <video controls playsinline webkit-playsinline class="w-full h-auto rounded-lg">
+                        <source src="https://page.gensparksite.com/get_upload_url/2d437096bbffcb3bd5f9676076881cbd191940c02a3d834c70da5f8dc353958a/default/0c3cd249-02ee-405f-a2aa-a4e719a1dc45" type="video/mp4">
+                        Ihr Browser unterstützt keine Video-Wiedergabe.
+                    </video>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="feature-card">
+                        <h3 class="text-2xl font-bold mb-4 gradient-text">Frank & Marlon Schwung</h3>
+                        <p class="text-lg mb-6">
+                            Kraftvolle Musik mit tiefgreifenden Botschaften. Eine Symbiose aus rebellischer Energie und spiritueller Erkenntnis.
+                        </p>
+                        
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                            <a href="https://youtube.com/@frankmarlon" class="platform-icon youtube-icon" target="_blank">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                            <a href="https://open.spotify.com/artist/frankmarlon" class="platform-icon spotify-icon" target="_blank">
+                                <i class="fab fa-spotify"></i>
+                            </a>
+                            <a href="https://instagram.com/frankmarlon" class="platform-icon instagram-icon" target="_blank">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="https://t.me/ArchivWeltenBibliothek" class="platform-icon telegram-icon" target="_blank">
+                                <i class="fab fa-telegram"></i>
+                            </a>
+                        </div>
+
+                        <div class="space-y-3">
+                            <a href="#concerts" class="cta-button w-full justify-center">
+                                <i class="fas fa-ticket-alt"></i>
+                                Konzert-Tickets
+                            </a>
+                            <a href="https://open.spotify.com/artist/frankmarlon" class="cta-button w-full justify-center" target="_blank">
+                                <i class="fab fa-spotify"></i>
+                                Auf Spotify Anhören
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Library Overview Section -->
+    <section class="py-16" id="library">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">ArchivWeltenBibliothek</h2>
+                <p class="text-xl opacity-80">Das ultimative Archiv des verborgenen Wissens</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="feature-card">
+                    <div class="text-4xl mb-4">🔺</div>
+                    <h3 class="text-xl font-bold mb-3 gradient-text">Geheimgesellschaften</h3>
+                    <p class="opacity-80">Illuminati, Freimaurerei, Skull & Bones - Die Mächte hinter den Kulissen</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="text-4xl mb-4">👽</div>
+                    <h3 class="text-xl font-bold mb-3 gradient-text">Außerirdische</h3>
+                    <p class="opacity-80">UFOs, Anunnaki, Ancient Aliens - Die Wahrheit über unsere Herkunft</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="text-4xl mb-4">🧠</div>
+                    <h3 class="text-xl font-bold mb-3 gradient-text">Bewusstseinskontrolle</h3>
+                    <p class="opacity-80">MK-Ultra, Monarch-Programm - Manipulation des menschlichen Geistes</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="text-4xl mb-4">🏰</div>
+                    <h3 class="text-xl font-bold mb-3 gradient-text">Tartaria</h3>
+                    <p class="opacity-80">Verlorene Zivilisationen, Mudflood - Die ausgelöschte Geschichte</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="text-4xl mb-4">💉</div>
+                    <h3 class="text-xl font-bold mb-3 gradient-text">Gesundheitsverschwörungen</h3>
+                    <p class="opacity-80">COVID-19, mRNA, Graphenoxid - Die Wahrheit über die Pandemie</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="text-4xl mb-4">⚛️</div>
+                    <h3 class="text-xl font-bold mb-3 gradient-text">CERN-Geheimnisse</h3>
+                    <p class="opacity-80">Dimensionsportale, Rituale - Was geschieht wirklich im CERN?</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detailed Knowledge Section -->
+    <section class="py-16" id="knowledge">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">Detailliertes Wissen</h2>
+                <p class="text-xl opacity-80">Tiefgreifende Analysen und versteckte Wahrheiten</p>
+            </div>
+
+            <!-- Geheimgesellschaften Details -->
+            <div class="detailed-card">
+                <div class="flex items-center mb-6">
+                    <div class="text-5xl mr-4">🔺</div>
+                    <div>
+                        <h3 class="text-3xl font-bold gradient-text">Geheimgesellschaften</h3>
+                        <div class="truth-level truth-high">Wahrheitsgehalt: Hoch</div>
+                    </div>
+                </div>
+
+                <div class="conspiracy-detail">
+                    <h4 class="text-2xl font-bold mb-4 text-red-400">Die Illuminati</h4>
+                    <p class="text-lg mb-4">
+                        Die Illuminati wurden 1776 von Adam Weishaupt in Bayern gegründet. Offiziell aufgelöst 1785, 
+                        existieren sie jedoch nach zahlreichen Quellen weiterhin als Schattenorganisation.
+                    </p>
+                    
+                    <div class="evidence-list">
+                        <h5 class="font-bold mb-3">Beweisstücke und Indizien:</h5>
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li>Symbolik auf der Ein-Dollar-Note: Das Allsehende Auge und die Pyramide</li>
+                            <li>Historische Dokumente aus bayerischen Archiven</li>
+                            <li>Verbindungen zu modernen Eliten und Politikern</li>
+                            <li>Rituale und Zeremonien in Bohemian Grove</li>
+                            <li>Freimaurerische Symbolik in Washington D.C.</li>
+                        </ul>
+                    </div>
+
+                    <div class="knowledge-category">
+                        <h5 class="font-bold mb-2">Moderne Manifestationen:</h5>
+                        <p>
+                            Die World Economic Forum, Bilderberg-Gruppe und Club of Rome werden als moderne 
+                            Inkarnationen der Illuminati-Ideologie betrachtet. Klaus Schwab's "Great Reset" 
+                            zeigt deutliche Parallelen zu den ursprünglichen Illuminati-Zielen der 
+                            Weltregierung und Bevölkerungskontrolle.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="conspiracy-detail">
+                    <h4 class="text-2xl font-bold mb-4 text-red-400">Skull & Bones</h4>
+                    <p class="text-lg mb-4">
+                        Die Geheimgesellschaft der Yale University, gegründet 1832, hat drei US-Präsidenten 
+                        hervorgebracht und kontrolliert wesentliche Teile der amerikanischen Politik.
+                    </p>
+
+                    <div class="evidence-list">
+                        <h5 class="font-bold mb-3">Bekannte Mitglieder:</h5>
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li>George W. Bush (Präsident 2001-2009)</li>
+                            <li>George H.W. Bush (Präsident 1989-1993)</li>
+                            <li>John Kerry (Außenminister, Präsidentschaftskandidat 2004)</li>
+                            <li>William Howard Taft (Präsident 1909-1913)</li>
+                            <li>Averell Harriman (Diplomat, Politiker)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Außerirdische Details -->
+            <div class="detailed-card">
+                <div class="flex items-center mb-6">
+                    <div class="text-5xl mr-4">👽</div>
+                    <div>
+                        <h3 class="text-3xl font-bold gradient-text">Außerirdische Präsenz</h3>
+                        <div class="truth-level truth-high">Wahrheitsgehalt: Hoch</div>
+                    </div>
+                </div>
+
+                <div class="conspiracy-detail">
+                    <h4 class="text-2xl font-bold mb-4 text-red-400">Die Anunnaki</h4>
+                    <p class="text-lg mb-4">
+                        Laut sumerischen Keilschrifttafeln und Zecharia Sitchins Übersetzungen kamen die 
+                        Anunnaki vor etwa 450.000 Jahren vom Planeten Nibiru zur Erde, um Gold abzubauen.
+                    </p>
+
+                    <div class="evidence-list">
+                        <h5 class="font-bold mb-3">Historische Belege:</h5>
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li>Sumerische Keilschrifttafeln von Enki und Enlil</li>
+                            <li>Das Gilgamesch-Epos mit außerirdischen Bezügen</li>
+                            <li>Megalithische Strukturen mit präziser Astronomie</li>
+                            <li>Genetische Anomalien im menschlichen Genom</li>
+                            <li>Goldabbau-Spuren in Südafrika (300.000+ Jahre alt)</li>
+                        </ul>
+                    </div>
+
+                    <div class="knowledge-category">
+                        <h5 class="font-bold mb-2">Moderne Verbindungen:</h5>
+                        <p>
+                            Die Blutlinien der Anunnaki sollen heute noch in den Königshäusern und Eliten 
+                            existieren. Reptilienmerkmale in der DNA werden als Beweis für die Hybridisierung 
+                            zwischen Menschen und Anunnaki interpretiert.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="conspiracy-detail">
+                    <h4 class="text-2xl font-bold mb-4 text-red-400">UFO-Vertuschung</h4>
+                    <p class="text-lg mb-4">
+                        Regierungen weltweit verheimlichen seit Jahrzehnten die Existenz außerirdischer 
+                        Technologie und Kontakte. Project Blue Book war nur die Spitze des Eisbergs.
+                    </p>
+
+                    <div class="evidence-list">
+                        <h5 class="font-bold mb-3">Geheimprojekte:</h5>
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li>Area 51 und S-4 Facility</li>
+                            <li>Majestic 12 Dokumente</li>
+                            <li>Roswell-Vorfall 1947</li>
+                            <li>Project Grudge und Sign</li>
+                            <li>Dulce Base Underground Facility</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bewusstseinskontrolle Details -->
+            <div class="detailed-card">
+                <div class="flex items-center mb-6">
+                    <div class="text-5xl mr-4">🧠</div>
+                    <div>
+                        <h3 class="text-3xl font-bold gradient-text">Bewusstseinskontrolle</h3>
+                        <div class="truth-level truth-high">Wahrheitsgehalt: Hoch</div>
+                    </div>
+                </div>
+
+                <div class="conspiracy-detail">
+                    <h4 class="text-2xl font-bold mb-4 text-red-400">MK-Ultra Programm</h4>
+                    <p class="text-lg mb-4">
+                        Von 1953-1973 führte die CIA illegale Experimente zur Bewusstseinskontrolle durch. 
+                        Offiziell beendet, wurden die Techniken weiterentwickelt und perfektioniert.
+                    </p>
+
+                    <div class="evidence-list">
+                        <h5 class="font-bold mb-3">Dokumentierte Methoden:</h5>
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li>LSD und andere Psychedelika</li>
+                            <li>Elektroschock-Therapie</li>
+                            <li>Sensorische Deprivation</li>
+                            <li>Hypnose und Suggestion</li>
+                            <li>Traumatische Konditionierung</li>
+                        </ul>
+                    </div>
+
+                    <div class="knowledge-category">
+                        <h5 class="font-bold mb-2">Moderne Anwendungen:</h5>
+                        <p>
+                            Soziale Medien, Mainstream-Medien und Bildungssystem nutzen MK-Ultra Techniken 
+                            zur Massenkonditionierung. Algorithmen verstärken gewünschte Denkprozesse und 
+                            unterdrücken kritisches Denken.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="conspiracy-detail">
+                    <h4 class="text-2xl font-bold mb-4 text-red-400">Monarch-Programm</h4>
+                    <p class="text-lg mb-4">
+                        Ein Subprojekt von MK-Ultra, das darauf abzielt, multiple Persönlichkeiten zu 
+                        erschaffen und zu kontrollieren. Besonders in der Unterhaltungsindustrie verbreitet.
+                    </p>
+
+                    <div class="evidence-list">
+                        <h5 class="font-bold mb-3">Identifizierte Symbole:</h5>
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li>Schmetterlinge (Monarch Butterfly)</li>
+                            <li>Spiegel und Spiegelwelten</li>
+                            <li>Dualität und Schwarz-Weiß Symbolik</li>
+                            <li>Käfige und Gefangenschaft</li>
+                            <li>Zersplitterte Persönlichkeiten</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tartaria Details -->
+            <div class="detailed-card">
+                <div class="flex items-center mb-6">
+                    <div class="text-5xl mr-4">🏰</div>
+                    <div>
+                        <h3 class="text-3xl font-bold gradient-text">Tartaria & Mudflood</h3>
+                        <div class="truth-level truth-medium">Wahrheitsgehalt: Mittel</div>
+                    </div>
+                </div>
+
+                <div class="conspiracy-detail">
+                    <h4 class="text-2xl font-bold mb-4 text-red-400">Das Tartarische Reich</h4>
+                    <p class="text-lg mb-4">
+                        Tartaria war eine fortgeschrittene Zivilisation, die große Teile Eurasiens 
+                        beherrschte. Ihre Existenz wurde aus den Geschichtsbüchern gelöscht.
+                    </p>
+
+                    <div class="evidence-list">
+                        <h5 class="font-bold mb-3">Architektonische Beweise:</h5>
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li>Vergrabene Gebäude mit Fenstern im Untergrund</li>
+                            <li>Identische Architektur weltweit</li>
+                            <li>Fortgeschrittene Bautechniken ohne moderne Werkzeuge</li>
+                            <li>Atmosphärische Energie-Systeme</li>
+                            <li>Megalithische Strukturen mit präziser Geometrie</li>
+                        </ul>
+                    </div>
+
+                    <div class="knowledge-category">
+                        <h5 class="font-bold mb-2">Der Mudflood:</h5>
+                        <p>
+                            Eine globale Schlammflut im 19. Jahrhundert begrub die tartarische Zivilisation. 
+                            Überlebende Gebäude wurden als "historische Rekonstruktionen" neu datiert, 
+                            um die wahre Geschichte zu verbergen.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="conspiracy-detail">
+                    <h4 class="text-2xl font-bold mb-4 text-red-400">Freie Energie-Technologie</h4>
+                    <p class="text-lg mb-4">
+                        Tartarische Gebäude nutzten atmosphärische Elektrizität durch Kuppeln und 
+                        Antennen. Diese Technologie wurde unterdrückt, um die Kontrolle über 
+                        Energieressourcen zu behalten.
+                    </p>
+
+                    <div class="evidence-list">
+                        <h5 class="font-bold mb-3">Technische Indizien:</h5>
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li>Kupferdächer als Energiesammler</li>
+                            <li>Sternförmige Festungen als Energiezentren</li>
+                            <li>Nikola Tesla's Wiederentdeckung dieser Technologie</li>
+                            <li>Zerstörung der World's Fair Gebäude</li>
+                            <li>Einführung des Erdöl-basierten Energiesystems</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gesundheitsverschwörungen Details -->
+            <div class="detailed-card">
+                <div class="flex items-center mb-6">
+                    <div class="text-5xl mr-4">💉</div>
+                    <div>
+                        <h3 class="text-3xl font-bold gradient-text">Gesundheitsverschwörungen</h3>
+                        <div class="truth-level truth-high">Wahrheitsgehalt: Hoch</div>
+                    </div>
+                </div>
+
+                <div class="conspiracy-detail">
+                    <h4 class="text-2xl font-bold mb-4 text-red-400">COVID-19 Pandemie</h4>
+                    <p class="text-lg mb-4">
+                        Die COVID-19 Pandemie wurde als Vorwand für die Implementierung eines 
+                        globalen Überwachungs- und Kontrollsystems genutzt. Event 201 war die 
+                        Generalprobe.
+                    </p>
+
+                    <div class="evidence-list">
+                        <h5 class="font-bold mb-3">Verdächtige Fakten:</h5>
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li>Event 201 - Pandemie-Simulation Oktober 2019</li>
+                            <li>Wuhan Labor für Virenforschung</li>
+                            <li>Gain-of-Function Forschung</li>
+                            <li>Patente auf Coronavirus-Varianten</li>
+                            <li>Gleichzeitige Vorbereitung der Impfstoffe</li>
+                        </ul>
+                    </div>
+
+                    <div class="knowledge-category">
+                        <h5 class="font-bold mb-2">Impfstoff-Agenda:</h5>
+                        <p>
+                            Die mRNA-Impfstoffe enthalten Graphenoxid und andere Nanotechnologien für 
+                            die Überwachung und Kontrolle der Bevölkerung. Die Spike-Proteine verursachen 
+                            vorsätzlich Langzeitschäden.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="conspiracy-detail">
+                    <h4 class="text-2xl font-bold mb-4 text-red-400">Bevölkerungsreduktion</h4>
+                    <p class="text-lg mb-4">
+                        Die Georgia Guidestones forderten eine Weltbevölkerung von nur 500 Millionen 
+                        Menschen. Impfungen, Chemtrails und Fluorid sind Werkzeuge der Entvölkerung.
+                    </p>
+
+                    <div class="evidence-list">
+                        <h5 class="font-bold mb-3">Entvölkerungsmaßnahmen:</h5>
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li>Unfruchtbarkeit durch Impfungen</li>
+                            <li>Chemtrails mit Aluminiumoxid</li>
+                            <li>Fluorid im Trinkwasser</li>
+                            <li>Hormone in Nahrungsmitteln</li>
+                            <li>5G-Strahlung</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CERN Details -->
+            <div class="detailed-card">
+                <div class="flex items-center mb-6">
+                    <div class="text-5xl mr-4">⚛️</div>
+                    <div>
+                        <h3 class="text-3xl font-bold gradient-text">CERN-Geheimnisse</h3>
+                        <div class="truth-level truth-medium">Wahrheitsgehalt: Mittel</div>
+                    </div>
+                </div>
+
+                <div class="conspiracy-detail">
+                    <h4 class="text-2xl font-bold mb-4 text-red-400">Dimensionsportale</h4>
+                    <p class="text-lg mb-4">
+                        Der Large Hadron Collider (LHC) wurde nicht nur zur Teilchenforschung gebaut, 
+                        sondern öffnet Portale zu anderen Dimensionen und beschwört dämonische Entitäten.
+                    </p>
+
+                    <div class="evidence-list">
+                        <h5 class="font-bold mb-3">Okkulte Symbolik:</h5>
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li>Shiva-Statue vor dem CERN-Gebäude</li>
+                            <li>666 im CERN-Logo</li>
+                            <li>Rituelle Zeremonien im Gotthard-Tunnel</li>
+                            <li>Verbindung zur Schwarzen Magie</li>
+                            <li>Standort über antiken Kultstätten</li>
+                        </ul>
+                    </div>
+
+                    <div class="knowledge-category">
+                        <h5 class="font-bold mb-2">Mandela-Effekt:</h5>
+                        <p>
+                            CERN-Experimente verändern die Realität und verursachen den Mandela-Effekt. 
+                            Kollektive Erinnerungen werden durch Zeitlinien-Manipulation verändert.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="conspiracy-detail">
+                    <h4 class="text-2xl font-bold mb-4 text-red-400">Schwarze Löcher</h4>
+                    <p class="text-lg mb-4">
+                        Die Experimente am LHC können mikroskopische Schwarze Löcher erzeugen, 
+                        die potenziell die Erde verschlingen könnten. Diese Gefahr wird bewusst 
+                        heruntergespielt.
+                    </p>
+
+                    <div class="evidence-list">
+                        <h5 class="font-bold mb-3">Wissenschaftliche Bedenken:</h5>
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li>Hawking-Strahlung unbewiesen</li>
+                            <li>Unbekannte Teilchen-Reaktionen</li>
+                            <li>Veränderung der Raumzeit-Struktur</li>
+                            <li>Quantenverschränkung mit anderen Dimensionen</li>
+                            <li>Destabilisierung der Erdachse</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-12">
+                <a href="https://t.me/ArchivWeltenBibliothek" class="cta-button" target="_blank">
+                    <i class="fab fa-telegram"></i>
+                    Telegram-Kanal für Tägliche Updates
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Concerts Section -->
+    <section class="py-16 bg-gradient-to-b from-transparent to-black/20" id="concerts">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">Konzerte & Events</h2>
+                <p class="text-xl opacity-80">Erleben Sie die kraftvolle Musik live</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="feature-card">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold">Berlin Arena</h3>
+                        <div class="archive-badge">SOLD OUT</div>
+                    </div>
+                    <p class="text-lg mb-2">15. März 2025</p>
+                    <p class="opacity-80 mb-4">20:00 Uhr</p>
+                    <p class="text-sm opacity-60">Bereits ausverkauft - Warteliste verfügbar</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold">Hamburg Sporthalle</h3>
+                        <div class="archive-badge text-green-400">VERFÜGBAR</div>
+                    </div>
+                    <p class="text-lg mb-2">22. März 2025</p>
+                    <p class="opacity-80 mb-4">19:30 Uhr</p>
+                    <a href="#ticket-purchase" class="cta-button w-full justify-center">
+                        <i class="fas fa-ticket-alt"></i>
+                        Tickets ab 35€
+                    </a>
+                </div>
+
+                <div class="feature-card">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold">München Olympiahalle</h3>
+                        <div class="archive-badge text-yellow-400">WENIGE TICKETS</div>
+                    </div>
+                    <p class="text-lg mb-2">29. März 2025</p>
+                    <p class="opacity-80 mb-4">20:00 Uhr</p>
+                    <a href="#ticket-purchase" class="cta-button w-full justify-center">
+                        <i class="fas fa-ticket-alt"></i>
+                        Tickets ab 42€
+                    </a>
+                </div>
+            </div>
+
+            <div class="mt-12 text-center">
+                <div class="feature-card inline-block" id="ticket-purchase">
+                    <h3 class="text-2xl font-bold mb-4 gradient-text">VIP-Packages Verfügbar</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="stats-card">
+                            <h4 class="font-bold mb-2">Standard Ticket</h4>
+                            <p class="text-2xl font-bold text-green-400">35€ - 45€</p>
+                            <p class="text-sm opacity-80">Stehplatz / Sitzplatz</p>
+                        </div>
+                        <div class="stats-card">
+                            <h4 class="font-bold mb-2">VIP Experience</h4>
+                            <p class="text-2xl font-bold gradient-text">120€ - 150€</p>
+                            <p class="text-sm opacity-80">Meet & Greet + Exklusive Inhalte</p>
+                        </div>
+                    </div>
+                    <div class="mt-6 space-y-3">
+                        <a href="https://eventim.de/frankmarlon" class="cta-button" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            Bei Eventim Kaufen
+                        </a>
+                        <a href="https://ticketmaster.de/frankmarlon" class="cta-button" target="_blank">
+                            <i class="fas fa-external-link-alt"></i>
+                            Bei Ticketmaster Kaufen
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-section py-16">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold mb-4 gradient-text">ArchivWeltenBibliothek</h3>
+                    <p class="opacity-80 mb-4">Das ultimative Archiv des verborgenen Wissens</p>
+                    <div class="flex space-x-4">
+                        <a href="https://t.me/ArchivWeltenBibliothek" class="platform-icon telegram-icon" target="_blank">
+                            <i class="fab fa-telegram"></i>
+                        </a>
+                        <a href="https://youtube.com/@archivchannel" class="platform-icon youtube-icon" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-2xl font-bold mb-4 gradient-text">Frank & Marlon Schwung</h3>
+                    <p class="opacity-80 mb-4">Kraftvolle Musik mit tiefgreifenden Botschaften</p>
+                    <div class="flex space-x-4">
+                        <a href="https://youtube.com/@frankmarlon" class="platform-icon youtube-icon" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="https://open.spotify.com/artist/frankmarlon" class="platform-icon spotify-icon" target="_blank">
+                            <i class="fab fa-spotify"></i>
+                        </a>
+                        <a href="https://instagram.com/frankmarlon" class="platform-icon instagram-icon" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-2xl font-bold mb-4 gradient-text">Konzert-Tickets</h3>
+                    <p class="opacity-80 mb-4">Sichern Sie sich Ihre Tickets für die kommenden Shows</p>
+                    <div class="space-y-2">
+                        <a href="https://eventim.de/frankmarlon" class="cta-button" target="_blank">
+                            <i class="fas fa-ticket-alt"></i>
+                            Eventim
+                        </a>
+                        <a href="https://ticketmaster.de/frankmarlon" class="cta-button" target="_blank">
+                            <i class="fas fa-ticket-alt"></i>
+                            Ticketmaster
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-divider"></div>
+
+            <div class="text-center">
+                <div class="archive-badge mb-4">
+                    <i class="fas fa-book-open mr-2"></i>
+                    Wissen ist Macht 2025
+                </div>
+                <p class="opacity-60">© 2025 ArchivWeltenBibliothek × Frank & Marlon Schwung. Alle Rechte vorbehalten.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Animation for cards
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.6s ease-out';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.feature-card, .detailed-card, .conspiracy-detail').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Add fadeInUp animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"96124ccf18e5d21a","serverTiming":{"name":{"cfExtPri":true,"cfEdge":true,"cfOrigin":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"version":"2025.7.0","token":"4edd5f8ec12a48cfa682ab8261b80a79"}' crossorigin="anonymous"></script>
+</body>
+</html>
+    <script id="html_badge_script1">
+        window.__genspark_remove_badge_link = "https://www.genspark.ai/api/html_badge/" +
+            "remove_badge?token=To%2FBnjzloZ3UfQdcSaYfDqX7Abs5py9KzQcSuNL2ELI7pRQN8IcacIXVTF%2BINYY%2B%2FmWyNEw6FW4uID6fjk0RrDSh%2BhgHlhO0BUKrXnCMqDMltjDb1oS6dIugs1ZEqykmKYeF3XNJtu9WlqOjmR3ffyM%2Fd4QWhi0XD1vpfO3MLbe5DQ1ItrDxy3sbs%2F1Uh8DQJNwaqJplizutDNu5qVOc89egL9zW6lxD%2BUVUqrnKfmYFQmJEonoWUWeEcQKCwKdqe%2F7utbmlh%2FswZ1Si07hwsNRgyk2s9vmgBb91jNtwkZIl%2FFLh2kyXi1teftpyQ90JbMIkDU8UeOPC7zNTAh4qe1BV7gonTKorM5m3I%2BhhEjlEwIpEj4WuBoz1vzQyVGpZHMW%2BZZU%2B8enk9DOQ3gJMKvGfvs3gYoN0UqPbDHUPlt9%2Buhx5KREmNPCkQOr0awGyUZC1eHVWvlb4Nsr9hEN%2B6OYNHM0N0joFqBjQkTB%2FvhBaiP1yo2Ee0KFWihgQqiSVkKfQlUrvgSYHA07Su3pjz%2FlLrOOd4VOFoLoFNnLEQ%2B8%3D";
+        window.__genspark_locale = "de-DE";
+        window.__genspark_token = "To/BnjzloZ3UfQdcSaYfDqX7Abs5py9KzQcSuNL2ELI7pRQN8IcacIXVTF+INYY+/mWyNEw6FW4uID6fjk0RrDSh+hgHlhO0BUKrXnCMqDMltjDb1oS6dIugs1ZEqykmKYeF3XNJtu9WlqOjmR3ffyM/d4QWhi0XD1vpfO3MLbe5DQ1ItrDxy3sbs/1Uh8DQJNwaqJplizutDNu5qVOc89egL9zW6lxD+UVUqrnKfmYFQmJEonoWUWeEcQKCwKdqe/7utbmlh/swZ1Si07hwsNRgyk2s9vmgBb91jNtwkZIl/FLh2kyXi1teftpyQ90JbMIkDU8UeOPC7zNTAh4qe1BV7gonTKorM5m3I+hhEjlEwIpEj4WuBoz1vzQyVGpZHMW+ZZU+8enk9DOQ3gJMKvGfvs3gYoN0UqPbDHUPlt9+uhx5KREmNPCkQOr0awGyUZC1eHVWvlb4Nsr9hEN+6OYNHM0N0joFqBjQkTB/vhBaiP1yo2Ee0KFWihgQqiSVkKfQlUrvgSYHA07Su3pjz/lLrOOd4VOFoLoFNnLEQ+8=";
+    </script>
+    
+    <script id="html_notice_dialog_script" src="https://www.genspark.ai/notice_dialog.js"></script>
+    
